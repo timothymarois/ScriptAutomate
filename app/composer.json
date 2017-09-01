@@ -1,0 +1,18 @@
+{
+    "require":
+    {
+		"codeigniter4/framework":"dev-develop#0d9394aa16d3d815ae741419b89e686d861ba23e",
+        "symfony/var-dumper": "^3.3",
+        "tmarois/filebase": "^1.0",
+        "hellogerard/jobby":"^3.3"
+    },
+
+	"repositories":
+    [
+		{
+		   "type": "vcs",
+		   "url": "https://github.com/bcit-ci/CodeIgniter4"
+	    }
+    ]
+
+}
