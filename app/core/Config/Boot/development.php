@@ -30,4 +30,4 @@ define('SHOW_DEBUG_BACKTRACE', true);
 | items. It can always be used within your own application too.
 */
 
-define('CI_DEBUG', 1);
+define('CI_DEBUG', 0);
