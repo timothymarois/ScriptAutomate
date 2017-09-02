@@ -9,13 +9,13 @@ class Main extends AuthController
     *
     *
     */
-	public function index()
+	public function index( $page = '' )
 	{
-		/*$session = \Config\Services::settings()->get('access');
-		$session->key = 1214;
-		$session->save();*/
+		if ($page == '') $page = 'manual';
 
-		return view('welcome_message');
+		$page = view('template/page/'.$page);
+
+		return view('template/frame',['page'=>$page]);
 	}
 
 }

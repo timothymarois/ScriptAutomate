@@ -65,10 +65,12 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(false);
 
-$routes->add('/',  'App\Controllers\Main::index');
 $routes->add('/run/(:any)',  'App\Controllers\Runner::index/$1');
 
-// testing script namespace 
+$routes->add('/',  'App\Controllers\Main::index');
+$routes->add('/(:any)',  'App\Controllers\Main::index/$1');
+
+// testing script namespace
 // run/manual?s=Test\MyScript
 // php public/index.php run "Test\MyScript"
 

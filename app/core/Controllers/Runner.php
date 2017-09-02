@@ -6,6 +6,7 @@ class Runner extends AuthController
 {
 
     protected $scriptLocation = '';
+
     protected $timeStart;
     protected $timeEnd;
     protected $timeTotal;
@@ -47,6 +48,9 @@ class Runner extends AuthController
     */
     protected function execute( $outputHidden = false )
     {
+        $this->timeStart = $this->timer();
+
+        View::$timeStart = time();
         View::start();
 
         if ($outputHidden === true)
@@ -55,14 +59,13 @@ class Runner extends AuthController
             View::$output = false;
         }
 
-        $this->timeStart = $this->timer();
-
         $script = new $this->scriptLocation();
         $script->run();
 
         $this->timeEnd   = $this->timer();
         $this->timeTotal = round(($this->timeEnd - $this->timeStart),2);
 
+        View::$timeEnd = time();
         View::end($this->timeTotal);
     }
 
