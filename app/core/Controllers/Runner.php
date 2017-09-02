@@ -18,7 +18,7 @@ class Runner extends AuthController
     */
 	public function index( $scriptLocation = 'manual' )
 	{
-        $output = (bool) $this->request->getGet('output');
+        $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
 
         if ($scriptLocation!='manual')
         {
@@ -34,7 +34,7 @@ class Runner extends AuthController
 
         if ($this->scriptLocation)
         {
-            $this->execute( $output );
+            $this->execute( $outputHidden );
         }
 	}
 
@@ -45,11 +45,11 @@ class Runner extends AuthController
     *
     *
     */
-    protected function execute( $output = false )
+    protected function execute( $outputHidden = false )
     {
         View::start();
 
-        if ($output === true)
+        if ($outputHidden === true)
         {
             View::add('Output hidden.');
             View::$output = false;

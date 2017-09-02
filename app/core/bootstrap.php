@@ -35,6 +35,20 @@ define('WRITEPATH', realpath(PARENTPATH . '/storage').DIRECTORY_SEPARATOR);
 // The path to the "tests" directory
 define('TESTPATH', realpath($config_paths->testsDirectory).DIRECTORY_SEPARATOR);
 
+
+if (!is_writable(WRITEPATH))
+{
+	if (!is_dir(WRITEPATH))
+    {
+        mkdir(WRITEPATH, 0775, true);
+    }
+	else
+	{
+		die('Error: Directory is not writable '.WRITEPATH);
+	}	
+}
+
+
 /*
  * ---------------------------------------------------------------
  * GRAB OUR CONSTANTS & COMMON
