@@ -66,6 +66,7 @@ $routes->set404Override();
 $routes->setAutoRoute(false);
 
 $routes->add('/run/(:any)',  'App\Controllers\Runner::index/$1');
+$routes->add('/automated',  'App\Controllers\Automated::index');
 
 $routes->add('/',  'App\Controllers\Main::index');
 $routes->add('/(:any)',  'App\Controllers\Main::index/$1');

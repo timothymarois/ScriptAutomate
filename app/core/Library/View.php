@@ -15,8 +15,6 @@ class View
     {
         if (self::$output == false) return false;
 
-        self::flushBuffer();
-
         if (!is_cli())
         {
             print "<div>".$text."</div>";
@@ -110,7 +108,7 @@ class View
     */
     protected static function flush()
     {
-        print str_pad('',intval(ini_get('output_buffering')))."\n";
+        if (!is_cli()) print str_pad('',intval(ini_get('output_buffering')))."\n";
         flush();
         if (ob_get_contents()) ob_clean();
     }

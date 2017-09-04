@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use \App\Library\View as View;
+use \App\Library\Schedule;
 
 class Runner extends AuthController
 {
@@ -21,6 +22,11 @@ class Runner extends AuthController
 	{
         $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
 
+        if (is_cli())
+        {
+            Schedule::update($scriptLocation,['last_start'=>date("Y-m-d H:i:s")]);
+        }
+
         $scriptDb = \Config\Services::settings()->get('scripts');
         $scripts  = $scriptDb->field('active');
 
@@ -38,6 +44,11 @@ class Runner extends AuthController
             View::start();
             View::add('Failed to locate script');
             View::end();
+        }
+
+        if (is_cli())
+        {
+            Schedule::update($scriptLocation,['last_end'=>date("Y-m-d H:i:s")]);
         }
 	}
 

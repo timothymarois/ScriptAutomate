@@ -13,6 +13,8 @@ class AuthController extends \CodeIgniter\Controller
 	{
         parent::__construct(...$params);
 
+		if (is_cli()) return true;
+
         $access = \Config\Services::settings()->get('access');
         $key    = $this->request->getGet('key');
 
