@@ -13,12 +13,14 @@
 
         <link rel="stylesheet" href="/resources/css/reset.css">
         <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/resources/vendor/select2/css/select2.min.css">
         <link rel="stylesheet" href="/resources/css/main.css?_t=<?=time()?>">
 
         <script src="/resources/js/jquery.min.js"></script>
         <script src="/resources/js/bootstrap.min.js"></script>
 
         <script src="/resources/vendor/screenfull/src/screenfull.js"></script>
+        <script src="/resources/vendor/select2/js/select2.min.js"></script>
 
     </head>
     <body style="overflow:hidden">
@@ -28,12 +30,71 @@
             <!-- Header -->
             <header id="header-navbar" class="content-mini content-mini-full">
                 <ul class="nav-header pull-left">
+
                     <li class="hidden-xs hidden-sm">
-                        <button class="btn btn-default btn-light toggle-fs" style="padding: 5px 10px;font-size: 16px" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Toggle Fullscreen Mode">
-                            <i class="si si-size-fullscreen"></i>
-                        </button>
+                        <a href="javascript://" class="btn btn-default btn-light toggle-fs">
+                            <!--<i class="fa fa-arrows-alt"></i>-->
+                            FS
+                        </a>
                     </li>
+
+                    <li class="hidden-xs hidden-sm">
+                        <a href="/" class="btn btn-default btn-light">
+                            Reset
+                        </a>
+                    </li>
+
+                    <li>
+                        <select class="select2 engineSelection" style="width:300px;">
+
+                            <?
+
+                            foreach($scriptGroup as $group=>$scripts)
+                            {
+                                ?><optgroup label="<?=$group?>"><?
+
+                                foreach($scripts as $script)
+                                {
+                                    ?><option value="<?=$script?>"><?=$script?></option><?
+                                }
+
+                                ?></optgroup><?
+                            }
+
+                            ?>
+                        </select>
+                    </li>
+
+                    <li>
+                        <a href="javascript://" class="btn btn-default btn-light btn-exe">
+                            <i class="fa fa-play"></i> Execute
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript://" class="btn btn-default btn-light btn-stop">
+                            <i class="fa fa-stop"></i> Stop
+                        </a>
+                    </li>
+
                 </ul>
+
+                <ul class="nav-header pull-right">
+
+                    <li class="hidden-xs hidden-sm">
+                        <a href="javascript://" class="btn btn-default btn-light toggle-up">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </li>
+
+                    <li class="hidden-xs hidden-sm">
+                        <a href="javascript://" class="btn btn-default btn-light toggle-down">
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                    </li>
+
+                </ul>
+
             </header>
             <!-- END Header -->
 
@@ -52,10 +113,46 @@
             $(document).ready(function()
             {
 
-                $('.toggle-fs').on('click', event => {
-                    if (screenfull.enabled) {
+                $('.btn-exe').on('click', function(e) {
+                    e.preventDefault();
+
+                    var script = $('.engineSelection').val();
+                    document.getElementById('systemview').src = '/run/'+script;
+
+                });
+
+                $('.toggle-fs').on('click', function(e) {
+                    e.preventDefault();
+
+                    if (screenfull.enabled)
+                    {
                         screenfull.toggle();
                     }
+                });
+
+
+                $('.btn-stop').on('click', function(e) {
+                    e.preventDefault();
+
+                    if (typeof (window.frames[0].stop) === 'undefined')
+                    {
+                        window.frames[0].document.execCommand('Stop');
+                    }
+                    else
+                    {
+                        window.frames[0].stop();
+                    }
+                });
+
+
+                $('.toggle-up').on('click',function(e){
+                    e.preventDefault();
+                	window.frames[0].scrollTo(0,0);
+                });
+
+                $('.toggle-down').on('click',function(e){
+                    e.preventDefault();
+                	window.frames[0].scrollTo(0,window.frames[0].document.body.scrollHeight);
                 });
 
            });

@@ -17,25 +17,27 @@ class Runner extends AuthController
     *
     *
     */
-	public function index( $scriptLocation = 'manual' )
+	public function index( $scriptLocation )
 	{
         $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
 
-        if ($scriptLocation!='manual')
+        $scriptDb = \Config\Services::settings()->get('scripts');
+        $scripts  = $scriptDb->field('active');
+
+        if (isset($scripts[$scriptLocation],$scripts[$scriptLocation]['namespace']))
         {
-            $this->scriptLocation = '\\Script\\'.$scriptLocation;
+            if (!isset($scripts[$scriptLocation]['parameters'])) $scripts[$scriptLocation]['parameters'] = [];
+
+            foreach($scripts[$scriptLocation]['namespace'] as $scriptNamespace)
+            {
+                $this->execute( '\\Script\\'.$scriptNamespace, $scripts[$scriptLocation]['parameters'], $outputHidden );
+            }
         }
         else
         {
-            if ($this->request->getGet('s'))
-            {
-                $this->scriptLocation = '\\Script\\'.$this->request->getGet('s');
-            }
-        }
-
-        if ($this->scriptLocation)
-        {
-            $this->execute( $outputHidden );
+            View::start();
+            View::add('Failed to locate script');
+            View::end();
         }
 	}
 
@@ -46,12 +48,22 @@ class Runner extends AuthController
     *
     *
     */
-    protected function execute( $outputHidden = false )
+    protected function execute( $scriptNamespace, $parameters = [], $outputHidden = false )
     {
         $this->timeStart = $this->timer();
 
         View::$timeStart = time();
         View::start();
+
+        if (!empty($parameters))
+        {
+            View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
+        }
+        else
+        {
+            View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
+        }
+
 
         if ($outputHidden === true)
         {
@@ -59,7 +71,7 @@ class Runner extends AuthController
             View::$output = false;
         }
 
-        $script = new $this->scriptLocation();
+        $script = new $scriptNamespace( $parameters );
         $script->run();
 
         $this->timeEnd   = $this->timer();
