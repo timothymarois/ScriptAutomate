@@ -4,8 +4,6 @@
 class AuthController extends \CodeIgniter\Controller
 {
 
-    public $session;
-
     /**
     * __construct()
     *
@@ -15,16 +13,24 @@ class AuthController extends \CodeIgniter\Controller
 	{
         parent::__construct(...$params);
 
-        /*$this->session = new \App\Users\Session();
+        $access = \Config\Services::settings()->get('access');
+        $key    = $this->request->getGet('key');
 
-        if ($this->session->isLoggedIn() && $this->session->getUserId())
+        if ($key==$access->key)
         {
-            $this->account = \Config\Services::accounts()->get($this->session->getUserId());
+            setcookie('access', $key, time()+(6*30*24*3600),"/");
         }
         else
         {
-            // redirect('/client/login');
-        }*/
+            if(isset($_COOKIE['access']) && $_COOKIE['access']==$access->key)
+            {
+
+            }
+            else
+            {
+                die('No Access');
+            }
+        }
 
 	}
 
