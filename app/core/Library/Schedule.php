@@ -32,7 +32,7 @@ class Schedule
         $current[$name] = [
             "command"    => 'php {{PATH}} run/'.(isset($options['controller']) ? $options['controller'] : 'run/Test'),
             "schedule"   => (isset($options['schedule']) ? $options['schedule'] : $time),
-            "output"     => (isset($options['output'] && $options['output']!='') ? '{{PATH}}/'.$name.'.log' : ''),
+            "output"     => ((isset($options['output']) && $options['output']!='') ? '{{PATH}}/'.$name.'.log' : ''),
             "status"     => (isset($options['status']) ? $options['status'] : 'enabled'),
             "runtime"    => (isset($options['max_runtime']) ? $options['max_runtime'] : 3600),
             "created_at" => date("Y-m-d H:i:s"),
