@@ -81,13 +81,13 @@
 
                 <ul class="nav-header pull-right">
 
-                    <li class="hidden-xs hidden-sm">
+                    <li>
                         <a href="javascript://" class="btn btn-default btn-light toggle-up">
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
 
-                    <li class="hidden-xs hidden-sm">
+                    <li>
                         <a href="javascript://" class="btn btn-default btn-light toggle-down">
                             <i class="fa fa-chevron-down"></i>
                         </a>
