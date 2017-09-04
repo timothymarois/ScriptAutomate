@@ -13,14 +13,14 @@
 
         <link rel="stylesheet" href="/resources/css/reset.css">
         <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/resources/vendor/select2/css/select2.min.css">
+        <link rel="stylesheet" href="/resources/vendors/select2/css/select2.min.css">
         <link rel="stylesheet" href="/resources/css/main.css?_t=<?=time()?>">
 
         <script src="/resources/js/jquery.min.js"></script>
         <script src="/resources/js/bootstrap.min.js"></script>
 
-        <script src="/resources/vendor/screenfull/src/screenfull.js"></script>
-        <script src="/resources/vendor/select2/js/select2.min.js"></script>
+        <script src="/resources/vendors/screenfull/src/screenfull.js"></script>
+        <script src="/resources/vendors/select2/js/select2.min.js"></script>
 
     </head>
     <body style="overflow:hidden">
