@@ -65,7 +65,7 @@ class Schedule
         {
             $schedules[$k]['command'] = str_replace('{{PATH}}',self::$fcpath,$schedules[$k]['command']);
 
-            if (isset($schedules[$k]['output']))
+            if (isset($schedules[$k]['output']) && $schedules[$k]['output']!='')
             {
                 $schedules[$k]['output']  = str_replace('{{PATH}}',self::$logpath,$schedules[$k]['output']);
             }
