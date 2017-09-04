@@ -79,3 +79,4 @@ composer.lock
 #-------------------------
 app/scripts/*
 app/storage/*
+public/files/*
