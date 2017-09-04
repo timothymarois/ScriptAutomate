@@ -66,15 +66,21 @@ class Runner extends AuthController
         View::$timeStart = time();
         View::start();
 
-        if (!empty($parameters))
+        if (is_cli())
         {
-            View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
+            View::add('Running Script: '.$scriptNamespace);
         }
         else
         {
-            View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
+            if (!empty($parameters))
+            {
+                View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
+            }
+            else
+            {
+                View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
+            }
         }
-
 
         if ($outputHidden === true)
         {
