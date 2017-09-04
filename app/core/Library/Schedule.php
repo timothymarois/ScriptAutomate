@@ -30,7 +30,7 @@ class Schedule
         }
 
         $current[$name] = [
-            "command"    => 'php {{PATH}} '.(isset($options['controller']) ? $options['controller'] : 'automated/default'),
+            "command"    => 'php {{PATH}} run/'.(isset($options['controller']) ? $options['controller'] : 'run/Test'),
             "schedule"   => (isset($options['schedule']) ? $options['schedule'] : $time),
             "output"     => (isset($options['output']) ? '{{PATH}}/'.$name.'.log' : ''),
             "status"     => (isset($options['status']) ? $options['status'] : 'enabled'),
