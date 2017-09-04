@@ -79,6 +79,7 @@ class Runner extends AuthController
 
         View::$timeEnd = time();
         View::end($this->timeTotal);
+
     }
 
 

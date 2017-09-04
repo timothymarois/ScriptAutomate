@@ -37,22 +37,23 @@ class View
     */
     public static function start()
     {
-        ob_start();
+        if (ob_get_level() == 0) ob_start();
 
         if (!is_cli())
         {
-            print '<style>body{font-family:"Lucida Console", Monaco, monospace;font-size:12px;color: #1ace22;</style>';
-            print '<script>function toBottom(){window.scrollTo(0,document.body.scrollHeight);}var scrollInterval = setInterval(function(){window.scrollTo(0,document.body.scrollHeight);},50);</script>';
+            echo '<style>body{font-family:"Lucida Console", Monaco, monospace;font-size:12px;color: #1ace22;</style>';
+            echo '<script>function toBottom(){window.scrollTo(0,document.body.scrollHeight);}var scrollInterval = setInterval(function(){window.scrollTo(0,document.body.scrollHeight);},20);</script>';
 
-            print '<div style="color:#00A8FF;font-size:11px;"># script started at '.date('Y-m-d H:i:s',self::$timeStart).'</div>';
-            print "<div style='font-weight:bold;color:#9B9B9B;padding-bottom:10px'>------------------------------------------------------</div>";
+            echo '<div style="color:#00A8FF;font-size:11px;"># script started at '.date('Y-m-d H:i:s',self::$timeStart).'</div>';
+            echo "<div style='font-weight:bold;color:#9B9B9B;padding-bottom:10px'>------------------------------------------------------</div>";
         }
         else
         {
-            print PHP_EOL.'script started:'.PHP_EOL;
+            echo PHP_EOL.'script started:'.PHP_EOL;
         }
 
         self::flushBuffer();
+
     }
 
 
@@ -67,14 +68,14 @@ class View
 
         if (!is_cli())
         {
-            print "<div style='font-weight:bold;color:#9B9B9B;padding-top:10px'>------------------------------------------------------</div>";
-            print "<div style='font-size:11px;color:#9B9B9B;color:#00A8FF;'># execution ended ".date('Y-m-d H:i:s',self::$timeEnd)." - (".$time." minutes)</div>";
-            print('<script>window.scrollTo(0,document.body.scrollHeight); clearInterval(scrollInterval);</script>');
+            echo "<div style='font-weight:bold;color:#9B9B9B;padding-top:10px'>------------------------------------------------------</div>";
+            echo "<div style='font-size:11px;color:#9B9B9B;color:#00A8FF;'># execution ended ".date('Y-m-d H:i:s',self::$timeEnd)." - (".$time." seconds)</div>";
+            echo('<script>window.scrollTo(0,document.body.scrollHeight); clearInterval(scrollInterval);</script>');
         }
         else
         {
-            print "------------------------------------------------------".PHP_EOL;
-            print "# execution ended (".$time." minutes)".PHP_EOL;
+            echo "------------------------------------------------------".PHP_EOL;
+            echo "# execution ended (".$time." seconds)".PHP_EOL;
         }
 
         self::flushBuffer();
@@ -93,7 +94,7 @@ class View
             if (ob_get_contents()) ob_end_flush();
             if (ob_get_contents()) ob_flush();
 
-            flush();
+            self::flush();
 
             if (ob_get_contents()) ob_clean();
 

@@ -67,7 +67,7 @@
 
                     <li>
                         <a href="javascript://" class="btn btn-default btn-light btn-exe">
-                            <i class="fa fa-play"></i> Execute
+                            <i class="fa fa-play icon-run"></i><!--<i class="fa fa-cog fa-spin icon-runner" style="display:none;    color: #ff0000;    font-size: 18px;"></i> --><div style="display:none;color: #ff0000;" class="loader icon-runner"></div> <span class="exetxt">Execute</span>
                         </a>
                     </li>
 
@@ -119,6 +119,21 @@
                     var script = $('.engineSelection').val();
                     document.getElementById('systemview').src = '/run/'+script;
 
+                    $('.icon-run').hide();
+                    $('.icon-runner').show();
+                    $('.exetxt').text('');
+
+                    var intv = setInterval(function()
+                    {
+                        window.frames[0].onload = function()
+                        {
+                            $('.icon-runner').hide();
+                            $('.icon-run').show();
+                            $('.exetxt').text('Execute');
+                            clearInterval(intv);
+                        };
+                    },5);
+
                 });
 
                 $('.toggle-fs').on('click', function(e) {
@@ -142,6 +157,10 @@
                     {
                         window.frames[0].stop();
                     }
+
+                    $('.icon-runner').hide();
+                    $('.icon-run').show();
+                    $('.exetxt').text('Execute');
                 });
 
 
