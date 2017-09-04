@@ -15,6 +15,7 @@ body {
 }
 a {
   color: #5c90d2;
+  color: #fff;
   -webkit-transition: color 0.12s ease-out;
   transition: color 0.12s ease-out;
 }
@@ -43,6 +44,7 @@ a.link-effect-opacity {
 a:hover,
 a:focus {
   color: #3169b1;
+  color: #fff;
   text-decoration: none;
 }
 a:hover.link-effect:before,
@@ -58,6 +60,7 @@ a:focus.link-effect-opacity {
 }
 a:active {
   color: #5c90d2;
+  color: #fff;
 }
 a.inactive {
   cursor: not-allowed;
