@@ -22,7 +22,7 @@ class Automated extends AuthController
 				'enabled'    => true,
 				'command'    => $options['command'],
 				'schedule'   => $options['schedule'],
-				'output'     => $options['output'],
+				'output'     => (isset($options['output']) ? $options['output'] : ''),
 				'maxRuntime' => $options['runtime']
 			]);
 		}
