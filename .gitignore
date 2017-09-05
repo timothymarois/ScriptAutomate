@@ -51,6 +51,7 @@ Vagrantfile
 #-------------------------
 vendor/
 composer.lock
+composer.json
 
 #-------------------------
 # IDE / Development Files
