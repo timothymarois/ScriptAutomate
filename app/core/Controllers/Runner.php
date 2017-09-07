@@ -68,7 +68,14 @@ class Runner extends AuthController
 
         if (is_cli())
         {
-            View::add('Running Script: '.$scriptNamespace);
+            if (!empty($parameters))
+            {
+                View::add('Running Script: '.$scriptNamespace.' with '.http_build_query($parameters));
+            }
+            else
+            {
+                View::add('Running Script: '.$scriptNamespace);
+            }
         }
         else
         {
