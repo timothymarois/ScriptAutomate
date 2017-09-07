@@ -37,9 +37,9 @@ class View
     {
         if (ob_get_level() == 0) ob_start();
 
-        if (!is_cli())
+        if (!is_cli()) 
         {
-            echo '<style>body{font-family:"Lucida Console", Monaco, monospace;font-size:12px;color: #1ace22;}a,a:hover,a:active,a:focus{color: #fff;}</style>';
+            echo '<style>body{font-family:"Lucida Console", Monaco, monospace;font-size:12px;color: #1ace22;color: #5fbb64;}a,a:hover,a:active,a:focus{color: #fff;}</style>';
             echo '<script>function toBottom(){window.scrollTo(0,document.body.scrollHeight);}var scrollInterval = setInterval(function(){window.scrollTo(0,document.body.scrollHeight);},20);</script>';
 
             echo '<div style="color:#00A8FF;font-size:11px;"># script started at '.date('Y-m-d H:i:s',self::$timeStart).'</div>';
