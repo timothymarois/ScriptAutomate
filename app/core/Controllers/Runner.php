@@ -22,8 +22,6 @@ class Runner extends AuthController
 	{
         $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
 
-        print_r($this->request->getGet());
-
         if (is_cli())
         {
             Schedule::update($scriptLocation,['last_start'=>date("Y-m-d H:i:s")]);
