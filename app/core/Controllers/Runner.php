@@ -22,6 +22,8 @@ class Runner extends AuthController
 	{
         $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
 
+        print_r($this->request->getGet());
+
         if (is_cli())
         {
             Schedule::update($scriptLocation,['last_start'=>date("Y-m-d H:i:s")]);
@@ -33,6 +35,11 @@ class Runner extends AuthController
         if (isset($scripts[$scriptLocation],$scripts[$scriptLocation]['namespace']))
         {
             if (!isset($scripts[$scriptLocation]['parameters'])) $scripts[$scriptLocation]['parameters'] = [];
+
+            if (!empty($this->request->getGet()))
+            {
+                $scripts[$scriptLocation]['parameters'] = array_merge($scripts[$scriptLocation]['parameters'], $this->request->getGet());
+            }
 
             foreach($scripts[$scriptLocation]['namespace'] as $scriptNamespace)
             {
