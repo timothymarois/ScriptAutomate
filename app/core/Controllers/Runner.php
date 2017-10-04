@@ -34,7 +34,7 @@ class Runner extends AuthController
         {
             if (!isset($scripts[$scriptLocation]['parameters'])) $scripts[$scriptLocation]['parameters'] = [];
 
-            if (!empty($this->request->getGet()))
+            if (!is_cli() && !empty($this->request->getGet()))
             {
                 $scripts[$scriptLocation]['parameters'] = array_merge($scripts[$scriptLocation]['parameters'], $this->request->getGet());
             }
