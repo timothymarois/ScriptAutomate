@@ -37,6 +37,7 @@ class Runner extends AuthController
             if (!is_cli() && !empty($this->request->getGet()))
             {
                 $scripts[$scriptLocation]['parameters'] = array_merge($scripts[$scriptLocation]['parameters'], $this->request->getGet());
+                $scripts[$scriptLocation]['parameters'] = array_merge($scripts[$scriptLocation]['parameters'], $this->request->getPost());
             }
 
             foreach($scripts[$scriptLocation]['namespace'] as $scriptNamespace)
