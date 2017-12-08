@@ -23,6 +23,11 @@ class Runner extends AuthController
         $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
         $this->withErrors = (bool) (is_cli() ? false : $this->request->getGet('errors'));
 
+        if ($this->withErrors)
+        {
+            View::$withErrors = true;
+        }
+
         if (is_cli())
         {
             Schedule::update($scriptLocation,['last_start'=>date("Y-m-d H:i:s")]);
@@ -71,44 +76,37 @@ class Runner extends AuthController
         $this->timeStart = $this->timer();
         $memoryStart     = memory_get_usage();
 
-        if (!$this->withErrors)
-        {
-            View::$timeStart   = time();
-            View::$memoryStart = $memoryStart;
-            View::start();
+        View::$timeStart   = time();
+        View::$memoryStart = $memoryStart;
+        View::start();
 
-            if (is_cli())
+        if (is_cli())
+        {
+            if (!empty($parameters))
             {
-                if (!empty($parameters))
-                {
-                    View::add('Running Script: '.$scriptNamespace.' with '.http_build_query($parameters));
-                }
-                else
-                {
-                    View::add('Running Script: '.$scriptNamespace);
-                }
+                View::add('Running Script: '.$scriptNamespace.' with '.http_build_query($parameters));
             }
             else
             {
-                if (!empty($parameters))
-                {
-                    View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
-                }
-                else
-                {
-                    View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
-                }
-            }
-
-            if ($outputHidden === true)
-            {
-                View::add('Output hidden.');
-                View::$output = false;
+                View::add('Running Script: '.$scriptNamespace);
             }
         }
         else
         {
-            View::$withErrors = true;
+            if (!empty($parameters))
+            {
+                View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
+            }
+            else
+            {
+                View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
+            }
+        }
+
+        if ($outputHidden === true)
+        {
+            View::add('Output hidden.');
+            View::$output = false;
         }
 
         $script = new $scriptNamespace( $parameters );

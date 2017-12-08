@@ -38,6 +38,8 @@ class View
     */
     public static function start()
     {
+        if (self::$output == false || self::$withErrors == true) return false;
+
         if (ob_get_level() == 0) ob_start();
 
         if (!is_cli())
@@ -65,6 +67,18 @@ class View
     */
     public static function end($time = 0, $memory = 0)
     {
+        if (self::$output == false || self::$withErrors == true)
+        {
+            if (!is_cli())
+            {
+                echo "<div style='font-weight:bold;color:#9B9B9B;padding-top:10px'>------------------------------------------------------</div>";
+                echo "<div style='font-size:11px;color:#9B9B9B;color:#00A8FF;'># execution ended ".date('Y-m-d H:i:s',self::$timeEnd)." - (".$time." Seconds / ".format_bytes($memory)." Memory)</div>";
+                echo('<script>window.scrollTo(0,document.body.scrollHeight); clearInterval(scrollInterval);</script>');
+            }
+            
+            return false;
+        }
+
         self::flushBuffer();
 
         if (!is_cli())
