@@ -21,6 +21,7 @@ class Runner extends AuthController
 	public function index( $scriptLocation )
 	{
         $outputHidden = (bool) (is_cli() ? false : $this->request->getGet('output'));
+        $this->withErrors = (bool) (is_cli() ? false : $this->request->getGet('errors'));
 
         if (is_cli())
         {
@@ -68,37 +69,46 @@ class Runner extends AuthController
     protected function execute( $scriptNamespace, $parameters = [], $outputHidden = false )
     {
         $this->timeStart = $this->timer();
+        $memoryStart     = memory_get_usage();
 
-        View::$timeStart = time();
-        View::start();
-
-        if (is_cli())
+        if (!$this->withErrors)
         {
-            if (!empty($parameters))
+            View::$timeStart   = time();
+            View::$memoryStart = $memoryStart;
+            View::start();
+
+            if (is_cli())
             {
-                View::add('Running Script: '.$scriptNamespace.' with '.http_build_query($parameters));
+                if (!empty($parameters))
+                {
+                    View::add('Running Script: '.$scriptNamespace.' with '.http_build_query($parameters));
+                }
+                else
+                {
+                    View::add('Running Script: '.$scriptNamespace);
+                }
             }
             else
             {
-                View::add('Running Script: '.$scriptNamespace);
+                if (!empty($parameters))
+                {
+                    View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
+                }
+                else
+                {
+                    View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
+                }
+            }
+
+            if ($outputHidden === true)
+            {
+                View::add('Output hidden.');
+                View::$output = false;
             }
         }
         else
         {
-            if (!empty($parameters))
-            {
-                View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span> with <span style="color:#ffb85b">'.http_build_query($parameters).'<span>');
-            }
-            else
-            {
-                View::add('Running Script: <span style="color:#ffb85b">'.$scriptNamespace.'</span>');
-            }
-        }
-
-        if ($outputHidden === true)
-        {
-            View::add('Output hidden.');
-            View::$output = false;
+            View::$withErrors = true;
         }
 
         $script = new $scriptNamespace( $parameters );
@@ -107,8 +117,12 @@ class Runner extends AuthController
         $this->timeEnd   = $this->timer();
         $this->timeTotal = round(($this->timeEnd - $this->timeStart),2);
 
-        View::$timeEnd = time();
-        View::end($this->timeTotal);
+        $currentMemory = memory_get_usage();
+        $usedMemory    = ($currentMemory-$memoryStart);
+
+        View::$timeEnd   = time();
+        View::$memoryEnd = $currentMemory;
+        View::end($this->timeTotal, $usedMemory);
 
     }
 

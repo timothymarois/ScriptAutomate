@@ -77,6 +77,10 @@
                         </a>
                     </li>
 
+                    <li>
+                        <input value="true" type="checkbox" id="showerrors" name="showerrors"> <label for="showerrors" style="cursor:pointer">Errors</label>
+                    </li>
+
                 </ul>
 
                 <ul class="nav-header pull-right">
@@ -117,7 +121,15 @@
                     e.preventDefault();
 
                     var script = $('.engineSelection').val();
-                    document.getElementById('systemview').src = '/run/'+script;
+                    var errors = $('[name="showerrors"]:checked').val();
+
+                    var url = '/run/'+script;
+                    if (errors)
+                    {
+                        url = '/run/'+script+'?errors='+errors;
+                    }
+
+                    document.getElementById('systemview').src = url;
 
                     $('.icon-run').hide();
                     $('.icon-runner').show();

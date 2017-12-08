@@ -2,9 +2,12 @@
 
 class View
 {
-    public static $output = true;
+    public static $output     = true;
+    public static $withErrors = false;
     public static $timeStart;
     public static $timeEnd;
+    public static $memoryStart = 0;
+    public static $memoryEnd   = 0;
 
     /**
     * sendBottom()
@@ -13,7 +16,7 @@ class View
     */
     public static function add($text = '')
     {
-        if (self::$output == false) return false;
+        if (self::$output == false || self::$withErrors == true) return false;
 
         if (!is_cli())
         {
@@ -37,7 +40,7 @@ class View
     {
         if (ob_get_level() == 0) ob_start();
 
-        if (!is_cli()) 
+        if (!is_cli())
         {
             echo '<style>body{font-family:"Lucida Console", Monaco, monospace;font-size:12px;color: #1ace22;color: #5fbb64;}a,a:hover,a:active,a:focus{color: #fff;}</style>';
             echo '<script>function toBottom(){window.scrollTo(0,document.body.scrollHeight);}var scrollInterval = setInterval(function(){window.scrollTo(0,document.body.scrollHeight);},20);</script>';
@@ -60,20 +63,20 @@ class View
     *
     *
     */
-    public static function end($time = 0)
+    public static function end($time = 0, $memory = 0)
     {
         self::flushBuffer();
 
         if (!is_cli())
         {
             echo "<div style='font-weight:bold;color:#9B9B9B;padding-top:10px'>------------------------------------------------------</div>";
-            echo "<div style='font-size:11px;color:#9B9B9B;color:#00A8FF;'># execution ended ".date('Y-m-d H:i:s',self::$timeEnd)." - (".$time." seconds)</div>";
+            echo "<div style='font-size:11px;color:#9B9B9B;color:#00A8FF;'># execution ended ".date('Y-m-d H:i:s',self::$timeEnd)." - (".$time." Seconds / ".format_bytes($memory)." Memory)</div>";
             echo('<script>window.scrollTo(0,document.body.scrollHeight); clearInterval(scrollInterval);</script>');
         }
         else
         {
             echo "------------------------------------------------------".PHP_EOL;
-            echo "# execution ended (".$time." seconds)".PHP_EOL;
+            echo "# execution ended (".$time." Seconds / ".format_bytes($memory)." Memory)".PHP_EOL;
         }
 
         self::flushBuffer();

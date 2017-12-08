@@ -45,7 +45,7 @@ if (!is_writable(WRITEPATH))
 	else
 	{
 		die('Error: Directory is not writable '.WRITEPATH);
-	}	
+	}
 }
 
 
@@ -103,6 +103,7 @@ if (file_exists(COMPOSER_PATH))
 
 helper('url');
 helper('filesystem');
+helper('convert');
 
 
 /*
